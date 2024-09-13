@@ -2,6 +2,14 @@
 
 ## Version 0
 
+### 0.0.24
+
+* Fix for Nginx config-example
+* Fix for Log-Directory creation
+* Enable SSH host-key checking by default (*ansible-runner seem to disable it by default*) 
+
+----
+
 ### 0.0.23
 
 * Fix for possible XSS
@@ -9,6 +17,8 @@
 * Migrated vendor CSS/JS to be included in the package
 * Option to enforce execution prompts
 * Fix use of GitHub private repositories
+
+----
 
 ### 0.0.22
 
