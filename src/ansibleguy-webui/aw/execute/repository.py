@@ -10,7 +10,7 @@ from aw.model.job import Job, JobExecution
 from aw.utils.util import is_null, is_set, write_file_0640
 from aw.utils.subps import process
 from aw.execute.play_credentials import write_pwd_file, get_pwd_file
-from aw.execute.util import overwrite_and_delete_file, update_status, get_path_run, job_logs
+from aw.execute.util import overwrite_and_delete_file, update_status, get_path_run, job_logs, create_dirs
 from aw.model.job_credential import BaseJobCredentials
 from aw.utils.handlers import AnsibleRepositoryError
 from aw.model.repository import Repository
@@ -23,6 +23,7 @@ class ExecuteRepository:
         self.path_run = path_run
         self.execution = execution
         self.path_repo = None
+        create_dirs(path=config['path_log'], desc='log')
 
     def create_repository(self, env: dict):
         if is_set(self.repository.git_override_initialize):
