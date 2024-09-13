@@ -101,6 +101,10 @@ def _environmental_variables(job: Job, execution: JobExecution) -> dict:
             **decode_job_env_vars(env_vars_csv=execution.environment_vars, src='Execution')
         }
 
+    # ansible-runner will default to 'False' if it's not set :(
+    if 'ANSIBLE_HOST_KEY_CHECKING' not in env_vars:
+        env_vars['ANSIBLE_HOST_KEY_CHECKING'] = True
+
     return env_vars
 
 
