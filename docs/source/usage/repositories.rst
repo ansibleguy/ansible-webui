@@ -73,6 +73,8 @@ If you want to run multiple ones - they need to be comma-separated.
 
 These hooks will not be processed if you override the actual create/update command.
 
+**Note**: For security reasons (XSS) these characters are not allowed: :code:`& < > "`
+
 ----
 
 Clone via SSH

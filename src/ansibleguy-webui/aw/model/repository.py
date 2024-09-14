@@ -31,6 +31,7 @@ class Repository(BaseModel):
 
     ])
     api_fields_write = form_fields
+    fields_shell_cmds = ['git_hook_pre', 'git_hook_post', 'git_override_initialize', 'git_override_update']
 
     name = models.CharField(max_length=100, null=False, blank=False)
     rtype = models.PositiveSmallIntegerField(choices=CHOICES_REPOSITORY)

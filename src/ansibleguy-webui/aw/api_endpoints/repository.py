@@ -30,7 +30,11 @@ class RepositoryWriteRequest(serializers.ModelSerializer):
     def validate(self, attrs: dict):
         for field in Repository.api_fields_write:
             if field in attrs:
-                validate_no_xss(value=attrs[field], field=field)
+                if field in Repository.fields_shell_cmds:
+                    validate_no_xss(value=attrs[field], field=field, shell_cmd=True)
+
+                else:
+                    validate_no_xss(value=attrs[field], field=field)
 
         return attrs
 
