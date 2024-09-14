@@ -96,8 +96,9 @@ def not_implemented(*args, **kwargs):
 def validate_no_xss(value: str, field: str, shell_cmd: bool = False):
     if is_set(value) and isinstance(value, str):
         if shell_cmd:
-            # allow single-quotes
+            # ignore characters shell-commands may need
             value = value.replace("'", '')
+            value = value.replace('&', '')
 
         if value != escape_html(value):
             raise ValidationError(f"Found illegal characters in field '{field}'")

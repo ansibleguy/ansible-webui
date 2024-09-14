@@ -197,6 +197,7 @@ class ExecuteRepository:
     def _run_repo_config_cmds(self, cmds: str, env: dict):
         if is_set(cmds):
             for cmd in cmds.split(','):
+                cmd = cmd.replace("''", '"')
                 self._repo_process(cmd=cmd, env=env)
 
     def _git_origin_with_credentials(self) -> str:

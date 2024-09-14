@@ -31,6 +31,7 @@ class RepositoryWriteRequest(serializers.ModelSerializer):
         for field in Repository.api_fields_write:
             if field in attrs:
                 if field in Repository.fields_shell_cmds:
+                    attrs[field] = attrs[field].replace('"', "''")
                     validate_no_xss(value=attrs[field], field=field, shell_cmd=True)
 
                 else:
