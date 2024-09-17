@@ -7,6 +7,7 @@
 * Fix for Nginx config-example
 * Fix for Log-Directory creation
 * Enable SSH host-key checking by default (*ansible-runner seem to disable it by default*) 
+* Enhanced Bottons of Log Live-View
 
 ----
 

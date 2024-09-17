@@ -1,3 +1,7 @@
+const ATTR_LOG_SWITCH = 'aw-log-stopped';
+const CLASS_LOG_SWITCH_ON = '.aw-log-switch-on';
+const CLASS_LOG_SWITCH_OFF = '.aw-log-switch-off';
+
 function addLogLines($this) {
     let logParentElement = $this.attr("aw-expand");
     let logElement = $this.attr("aw-log");
@@ -5,11 +9,12 @@ function addLogLines($this) {
     let job_id = $this.attr("aw-job");
     let exec_id = $this.attr("aw-exec");
     let hidden = document.getElementById(logParentElement).getAttribute("hidden");
+    let stopped = document.getElementById(logParentElement).getAttribute(ATTR_LOG_SWITCH) == '1';
     let logLineStart = $this.attr("aw-log-line");
     if(typeof logLineStart === "undefined") {
         logLineStart = 0;
     }
-    if (!hidden) {
+    if (!hidden && !stopped) {
         $.get("/api/job/" + job_id + "/" + exec_id + "/log/" + logLineStart, function(data) {
           if (data.lines.length > 0) {
             document.getElementById(logElement).innerHTML += data.lines.join('');
@@ -77,6 +82,7 @@ function updateApiTableDataJobLogs(row, row2, entry) {
         logsTemplates = logsTemplates.replaceAll('${LOG_STDERR_REPO_URL}', LINK_NULL);
     }
     row2.setAttribute("hidden", "hidden");
+    row2.setAttribute(ATTR_LOG_SWITCH, '0');
     row2.setAttribute("id", "aw-spoiler-" + entry.id);
     let row2Col = row2.insertCell(0);
     row2Col.setAttribute("colspan", "100%");
@@ -104,11 +110,31 @@ function updateApiTableDataJobLogs(row, row2, entry) {
     }
 }
 
+function switchLogUpdates($this) {
+    let logParentElement = document.getElementById($this.attr("aw-switch"));
+    let stopped = logParentElement.getAttribute(ATTR_LOG_SWITCH);
+    let state = '0';
+    if (stopped == '0') {
+        state = '1';
+    }
+    logParentElement.setAttribute(ATTR_LOG_SWITCH, state);
+    if (state == '1') {
+        logParentElement.querySelector(CLASS_LOG_SWITCH_ON).setAttribute("hidden", "hidden");
+        logParentElement.querySelector(CLASS_LOG_SWITCH_OFF).removeAttribute("hidden");
+    } else {
+        logParentElement.querySelector(CLASS_LOG_SWITCH_OFF).setAttribute("hidden", "hidden");
+        logParentElement.querySelector(CLASS_LOG_SWITCH_ON).removeAttribute("hidden");
+    }
+}
+
 $( document ).ready(function() {
     $(".aw-main").on("click", ".aw-log-read", function(){
         $this = jQuery(this);
         addLogLines($this);
         setInterval('addLogLines($this)', (DATA_REFRESH_SEC * 1000));
+    });
+    $(".aw-main").on("click", ".aw-log-switch", function(){
+        switchLogUpdates(jQuery(this));
     });
     executionCount = 20;
     apiEndpoint = "/api/job_exec?execution_count=" + executionCount;

@@ -60,14 +60,20 @@
             <div id="aw-execution-logs-end-${ID}"></div>
         </div>
         <div>
-            <button type="submit" title="Collapse" class="btn btn-info aw-btn-action aw-btn-collapse" aw-collapse="aw-spoiler-${ID}"
-            id="aw-log-end-${ID}">
+            <button type="submit" title="Collapse" class="btn btn-info aw-btn-action aw-btn-collapse" aw-collapse="aw-spoiler-${ID}">
                 {% include "../button/icon/collapse.html" %}
             </button>
             <button class="btn btn-danger aw-btn-action aw-api-click" title="Stop Execution" aw-api-endpoint="job"
                     aw-api-item="${JOB_ID}/${ID}" aw-api-method="delete">
                 {% include "../button/icon/stop.html" %}
             </button>
+            <button title="Halt Refresh" class="btn btn-secondary aw-btn-action aw-log-switch aw-log-switch-on" aw-switch="aw-spoiler-${ID}">
+                {% include "../button/icon/toggle_on.html" %}
+            </button>
+            <button hidden="hidden" title="Resume Refresh" class="btn btn-success aw-btn-action aw-log-switch aw-log-switch-off" aw-switch="aw-spoiler-${ID}">
+                {% include "../button/icon/toggle_off.html" %}
+            </button>
+            <div id="aw-log-end-${ID}" class="aw-log-end"></div>
         </div>
     </div>
 </div>

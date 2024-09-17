@@ -645,6 +645,10 @@ td div hr {
     color: var(--awSoftWhite);
 }
 
+.aw-log-end {
+    height: 60px;
+}
+
 /* Ansible console output colors */
 .aw-log-ok {
     color: #11D116;
