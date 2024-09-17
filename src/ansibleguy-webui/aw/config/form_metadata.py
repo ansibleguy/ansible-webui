@@ -39,6 +39,7 @@ FORM_LABEL = {
             'git_isolate': 'Git Isolate Directory',
             'git_hook_pre': 'Git Pre-Hook',
             'git_hook_post': 'Git Post-Hook',
+            'git_hook_cleanup': 'Git Cleanup-Hook',
             'git_override_initialize': 'Git Override Initialize-Command',
             'git_override_update': 'Git Override Update-Command',
         },

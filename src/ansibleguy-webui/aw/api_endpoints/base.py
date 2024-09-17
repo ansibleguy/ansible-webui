@@ -93,11 +93,13 @@ def not_implemented(*args, **kwargs):
     return JsonResponse({'error': 'Not yet implemented'}, status=404)
 
 
-def validate_no_xss(value: str, field: str, shell_cmd: bool = False):
+def validate_no_xss(value: str, field: str, shell_cmd: bool = False, single_quote: bool = False):
     if is_set(value) and isinstance(value, str):
-        if shell_cmd:
-            # ignore characters shell-commands may need
+        # ignore characters shell-commands may need
+        if single_quote or shell_cmd:
             value = value.replace("'", '')
+
+        if shell_cmd:
             value = value.replace('&', '')
 
         if value != escape_html(value):

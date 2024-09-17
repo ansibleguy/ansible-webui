@@ -16,12 +16,13 @@ class Repository(BaseModel):
     form_fields_git = [
         'name', 'git_origin', 'git_credentials', 'git_branch', 'git_isolate', 'git_lfs', 'git_limit_depth',
         'git_playbook_base',
-        'git_hook_pre', 'git_hook_post', 'git_override_initialize', 'git_override_update',
+        'git_hook_pre', 'git_hook_post', 'git_hook_cleanup', 'git_override_initialize', 'git_override_update',
     ]
     form_fields_static = ['name', 'static_path']
     form_fields = [
         'name', 'rtype', 'static_path', 'git_origin', 'git_credentials', 'git_branch', 'git_isolate', 'git_lfs',
-        'git_limit_depth', 'git_hook_pre', 'git_hook_post', 'git_override_initialize', 'git_override_update',
+        'git_limit_depth', 'git_hook_pre', 'git_hook_post', 'git_hook_cleanup',
+        'git_override_initialize', 'git_override_update',
         'git_playbook_base',
     ]
     api_fields_read = form_fields.copy()
@@ -31,7 +32,9 @@ class Repository(BaseModel):
 
     ])
     api_fields_write = form_fields
-    fields_shell_cmds = ['git_hook_pre', 'git_hook_post', 'git_override_initialize', 'git_override_update']
+    fields_shell_cmds = [
+        'git_hook_pre', 'git_hook_post', 'git_hook_cleanup', 'git_override_initialize', 'git_override_update',
+    ]
 
     name = models.CharField(max_length=100, null=False, blank=False)
     rtype = models.PositiveSmallIntegerField(choices=CHOICES_REPOSITORY)
@@ -49,6 +52,7 @@ class Repository(BaseModel):
     git_limit_depth = models.PositiveIntegerField(**DEFAULT_NONE)
     git_hook_pre = models.CharField(max_length=1000, **DEFAULT_NONE)
     git_hook_post = models.CharField(max_length=1000, **DEFAULT_NONE)
+    git_hook_cleanup = models.CharField(max_length=1000, **DEFAULT_NONE)
     git_override_initialize = models.CharField(max_length=1000, **DEFAULT_NONE)
     git_override_update = models.CharField(max_length=1000, **DEFAULT_NONE)
     git_playbook_base = models.CharField(max_length=300, **DEFAULT_NONE)

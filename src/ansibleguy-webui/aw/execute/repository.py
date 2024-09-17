@@ -162,6 +162,7 @@ class ExecuteRepository:
         for attr in BaseJobCredentials.SECRET_ATTRS:
             overwrite_and_delete_file(get_pwd_file(path_run=path_run_repo, attr=attr))
 
+        self._run_repo_config_cmds(cmds=self.repository.git_hook_cleanup, env=self._git_env())
         if self.repository.git_isolate:
             rmtree(self.get_path_repo(), ignore_errors=True)
 
