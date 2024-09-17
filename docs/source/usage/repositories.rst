@@ -73,6 +73,8 @@ If you want to run multiple ones - they need to be comma-separated.
 
 These hooks will not be processed if you override the actual create/update command.
 
+The cleanup-hook can be used to commit files that were created by the job-execution.
+
 **Note**: For security reasons (XSS) these characters are currently not allowed: :code:`< >`
 
 ----
