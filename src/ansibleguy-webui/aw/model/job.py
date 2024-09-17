@@ -89,6 +89,7 @@ class Job(BaseJob):
     api_fields_read.extend(CHANGE_FIELDS)
     api_fields_write = api_fields_read.copy()
     api_fields_read.append('next_run')
+    fields_allow_sq = ['comment']
 
     name = models.CharField(max_length=150, null=False, blank=False)
     playbook_file = models.CharField(max_length=100)

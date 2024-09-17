@@ -31,7 +31,11 @@ class JobWriteRequest(serializers.ModelSerializer):
     def validate(self, attrs: dict):
         for field in Job.api_fields_write:
             if field in attrs:
-                validate_no_xss(value=attrs[field], field=field)
+                if field in Job.fields_allow_sq:
+                    validate_no_xss(value=attrs[field], field=field, single_quote=True)
+
+                else:
+                    validate_no_xss(value=attrs[field], field=field)
 
         return attrs
 
