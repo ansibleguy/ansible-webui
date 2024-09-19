@@ -34,7 +34,7 @@
                 aw-api-item="${JOB_ID}/${ID}" aw-api-method="delete">
             {% include "../button/icon/stop.html" %}
         </button>
-        <a href="/ui/jobs/manage/job/${JOB_ID}">
+        <a href="/ui/jobs/manage/job/${JOB_ID}" class="aw-responsive-med">
             <button class="btn btn-warning aw-btn-action" title="Edit Job">
                 {% include "../button/icon/edit.html" %}
             </button>
@@ -42,7 +42,7 @@
         <button class="btn btn-info aw-btn-action aw-btn-expand aw-log-read" title="Show Logs"
                 aw-expand="aw-spoiler-${ID}" aw-log="aw-execution-logs-${ID}"
                 aw-job="${JOB_ID}" aw-exec="${ID}" aw-log-line="0"
-                aw-log-end="aw-log-end-${ID}">
+                aw-log-end="aw-log-end-${ID}" ${DISABLE}>
             {% include "../button/icon/expand.html" %}
         </button>
     </div>
@@ -59,7 +59,7 @@
             <div id="aw-execution-logs-${ID}"></div>
             <div id="aw-execution-logs-end-${ID}"></div>
         </div>
-        <div>
+        <div class="aw-execution-logs-footer">
             <button type="submit" title="Collapse" class="btn btn-info aw-btn-action aw-btn-collapse" aw-collapse="aw-spoiler-${ID}">
                 {% include "../button/icon/collapse.html" %}
             </button>
@@ -67,14 +67,14 @@
                     aw-api-item="${JOB_ID}/${ID}" aw-api-method="delete">
                 {% include "../button/icon/stop.html" %}
             </button>
-            <button title="Halt Refresh" class="btn btn-secondary aw-btn-action aw-log-switch aw-log-switch-on" aw-switch="aw-spoiler-${ID}">
+            <button title="Halt Refresh" class="btn btn-success aw-btn-action aw-log-switch aw-log-switch-on" aw-switch="aw-spoiler-${ID}">
                 {% include "../button/icon/toggle_on.html" %}
             </button>
-            <button hidden="hidden" title="Resume Refresh" class="btn btn-success aw-btn-action aw-log-switch aw-log-switch-off" aw-switch="aw-spoiler-${ID}">
+            <button hidden="hidden" title="Resume Refresh" class="btn btn-secondary aw-btn-action aw-log-switch aw-log-switch-off" aw-switch="aw-spoiler-${ID}">
                 {% include "../button/icon/toggle_off.html" %}
             </button>
-            <div id="aw-log-end-${ID}" class="aw-log-end"></div>
         </div>
+        <div id="aw-log-end-${ID}" class="aw-log-end"></div>
     </div>
 </div>
 {% endblock %}

@@ -646,7 +646,18 @@ td div hr {
 }
 
 .aw-log-end {
-    height: 60px;
+    height: 50px;
+}
+
+.aw-execution-logs-footer {
+    position: fixed;
+    bottom: 60px;
+    right: 5vw;
+    padding-left: 20px;
+}
+
+.aw-execution-logs-footer > .aw-btn-action {
+    opacity: 1 !important;
 }
 
 /* Ansible console output colors */

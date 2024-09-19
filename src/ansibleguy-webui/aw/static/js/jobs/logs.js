@@ -17,9 +17,11 @@ function addLogLines($this) {
     if (!hidden && !stopped) {
         $.get("/api/job/" + job_id + "/" + exec_id + "/log/" + logLineStart, function(data) {
           if (data.lines.length > 0) {
-            document.getElementById(logElement).innerHTML += data.lines.join('');
+            for (let line of data.lines) {
+                document.getElementById(logElement).innerHTML += line;
+                logElementEnd.scrollIntoView({ behavior: "smooth", block: "end", inline: "end" });
+            }
             $this.attr("aw-log-line", parseInt(logLineStart) + data.lines.length);
-            logElementEnd.scrollIntoView({ behavior: "smooth", block: "end", inline: "end" });
           }
         });
     };
@@ -48,6 +50,12 @@ function updateApiTableDataJobLogs(row, row2, entry) {
     let actionsTemplate = document.getElementById(ELEM_ID_TMPL_ACTIONS).innerHTML;
     actionsTemplate = actionsTemplate.replaceAll('${ID}', entry.id);
     actionsTemplate = actionsTemplate.replaceAll('${JOB_ID}', entry.job);
+    console.log("TEST", entry.status_name.toLowerCase());
+    if (entry.status_name.toLowerCase() == 'waiting') {
+        actionsTemplate = actionsTemplate.replaceAll('${DISABLE}', 'disabled');
+    } else {
+        actionsTemplate = actionsTemplate.replaceAll('${DISABLE}', '');
+    }
     row.cells[4].innerHTML = actionsTemplate;
 
     let logsTemplates = document.getElementById("aw-api-data-tmpl-logs").innerHTML;
