@@ -33,6 +33,8 @@ function updateApiTableDataJobLogs(row, row2, entry) {
     row.setAttribute("id_job", entry.job);
     row.setAttribute("id_execution", entry.id);
     row2.setAttribute("id_execution", entry.id);
+    row.classList.add("aw-execution-logs-header");
+    row2.classList.add("aw-execution-logs-container");
 
     row.cells[0].innerHTML = shortExecutionStatus(entry);
     row.cells[1].innerText = entry.job_name;

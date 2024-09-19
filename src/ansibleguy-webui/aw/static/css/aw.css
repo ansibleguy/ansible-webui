@@ -1,7 +1,6 @@
-/* todo: update colors (red-ish?) */
-
 html {
     min-height: 100vh;
+    z-index: -20;
 }
 
 body {
@@ -9,6 +8,8 @@ body {
     margin: 0 0;
     min-height: 100vh;
     background-color: var(--bg) !important;
+    z-index: -15;
+    position: relative;
     --whiteNormal: rgba(255, 255, 255, .9);
     --whiteNice: rgba(255, 255, 255, .7);
     --whiteSmooth: rgba(255, 255, 255, .5);
@@ -72,6 +73,8 @@ body.dark {
     min-height: 100vh;
     margin-bottom: 3vh;
     color: var(--tc1);
+    z-index: -10;
+    position: relative;
 }
 
 .aw-header {
@@ -649,11 +652,27 @@ td div hr {
     height: 50px;
 }
 
+.aw-logs {
+    position: relative;
+    z-index: -5;
+}
+
+.aw-execution-logs-header {
+    position: relative;
+    z-index: 1;
+}
+
+.aw-execution-logs-container > td, .aw-execution-logs {
+    position: relative;
+    z-index: -2 !important;
+}
+
 .aw-execution-logs-footer {
     position: fixed;
     bottom: 60px;
     right: 5vw;
     padding-left: 20px;
+    z-index: -1 !important;
 }
 
 .aw-execution-logs-footer > .aw-btn-action {
