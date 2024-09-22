@@ -50,7 +50,7 @@ def ansible_playbook(job: Job, execution: (JobExecution, None)):
         runner_cfg.prepare()
         command = ' '.join(runner_cfg.command)
         log(msg=f"Running job '{job.name}': '{command}'", level=5)
-        execution.command = command
+        execution.command = command[command.find('ansible-playbook'):]
         execution.save()
 
         runner = Runner(config=runner_cfg, cancel_callback=_cancel_job)

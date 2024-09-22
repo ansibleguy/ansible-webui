@@ -7,8 +7,8 @@ from aw.model.job_credential import BaseJobCredentials, JobUserCredentials
 from aw.utils.permission import has_credentials_permission, CHOICE_PERMISSION_READ
 from aw.base import USERS
 from aw.utils.debug import log  # log_warn
-from aw.utils.util import is_set, is_null
-from aw.execute.util import config_error, write_file_0600
+from aw.utils.util import is_set, is_null, write_file_0600
+from aw.execute.util import config_error
 
 
 def get_pwd_file(path_run: (str, Path), attr: str) -> str:
@@ -95,16 +95,22 @@ def get_credentials_to_use(job: Job, execution: JobExecution) -> (BaseJobCredent
     return credentials
 
 
-def commandline_arguments_credentials(credentials: BaseJobCredentials, path_run: Path) -> list:
-    cmd_arguments = []
+def get_runner_credential_args(creds: BaseJobCredentials) -> dict:
+    args = {}
 
-    for attr, flag in BaseJobCredentials.PUBLIC_ATTRS_ARGS.items():
-        if is_set(getattr(credentials, attr)):
-            cmd_arguments.append(f'{flag} {getattr(credentials, attr)}')
+    if is_set(creds.ssh_key):
+        args['ssh_key'] = creds.ssh_key
 
-    for attr in BaseJobCredentials.SECRET_ATTRS:
-        pwd_arg = get_pwd_file_arg(credentials, attr=attr, path_run=path_run)
-        if pwd_arg is not None:
-            cmd_arguments.append(pwd_arg)
+    if is_set(creds.connect_pass) or is_set(creds.become_pass) or is_set(creds.vault_pass):
+        args['passwords'] = {}
 
-    return cmd_arguments
+        if is_set(creds.connect_pass):
+            args['passwords']['SSH password:'] = creds.connect_pass
+
+        if is_set(creds.become_pass):
+            args['passwords']['BECOME password:'] = creds.become_pass
+
+        if is_set(creds.vault_pass):
+            args['passwords']['Vault password:'] = creds.vault_pass
+
+    return args

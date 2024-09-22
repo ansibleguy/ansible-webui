@@ -1,3 +1,6 @@
+import os
+import unicodedata
+import re as regex
 from platform import python_version
 from datetime import datetime, timedelta
 from time import time
@@ -5,9 +8,8 @@ from os import open as open_file
 from pathlib import Path
 from functools import lru_cache, wraps
 from math import ceil
-import re as regex
 from sys import maxunicode
-import unicodedata
+from threading import Thread
 
 from pkg_resources import get_distribution
 from crontab import CronTab
@@ -71,6 +73,19 @@ def write_file_0600(file: (str, Path), content: str):
 
     with open(file, mode, encoding='utf-8', opener=_open_file_0600) as _file:
         _file.write(content)
+
+
+def write_pipe_0600(file: (str, Path), content: str):
+    os.mkfifo(file, mode=0o600)
+
+    def pipe_writer(f: (str, Path), c: str):
+        # will be blocked until ansible connects to the other end of the pipe
+        with open(f, 'wb') as fh:
+            fh.write(c.encode('utf-8'))
+
+        os.remove(file)
+
+    Thread(target=pipe_writer, args=(file, content)).start()
 
 
 def _open_file_0640(path: (str, Path), flags):

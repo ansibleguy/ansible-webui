@@ -51,19 +51,7 @@ Security considerations this project does take into account:
 
 * Job secrets like passwords are never returned to the user/Web-UI
 
-* Job secrets are not passed as commandline-arguments but written to files:
-
-    Example:
-
-    .. code-block:: bash
-
-        [INFO] [play] Running job 'test': 'ansible-playbook --become-password-file /tmp/ansible-webui/2024-01-26_21-14-0066101/.aw_become_pass --vault-password-file /tmp/ansible-webui/2024-01-26_21-14-0066101/.aw_vault_pass -i inventory/hosts.yml --limit myHost playbook1.yml'
-
-    These files are:
-
-    * created with mode 0600
-
-    * overwritten and deleted at execution-cleanup
+* Runtime handling of secrets is done by the official `ansible-runner <https://ansible.readthedocs.io/projects/runner/en/latest/intro>`_ module (using :code:`pexpect` and :code:`ssh-agent`)
 
 * Usage of GitHub's `dependabot <https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/about-supply-chain-security#what-is-dependabot>`_ and `CodeQL <https://docs.github.com/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/about-code-scanning-with-codeql>`_
 

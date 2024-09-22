@@ -7,7 +7,7 @@ from aw.utils.http import ui_endpoint_wrapper, ui_endpoint_wrapper_kwargs
 from aw.model.job import JobExecution, JobExecutionResultHost
 from aw.model.job_credential import JobGlobalCredentials, JobUserCredentials
 from aw.api_endpoints.job_util import get_viewable_jobs
-from aw.utils.util import get_next_cron_execution_str
+from aw.utils.util import get_next_cron_execution_str, is_set
 from aw.utils.permission import has_credentials_permission, CHOICE_PERMISSION_READ
 from aw.views.forms.job import job_edit, job_clone, job_credentials_edit, job_repository_static_edit, \
     job_repository_git_edit
@@ -34,7 +34,7 @@ def manage(request) -> HttpResponse:
 
         cron = '-'
         try:
-            if job.schedule is not None:
+            if is_set(job.schedule):
                 cron = get_next_cron_execution_str(job.schedule)
 
         except ValueError:

@@ -9,6 +9,7 @@
 * Enable SSH host-key checking by default (*ansible-runner seem to disable it by default*) 
 * Enhanced Bottons of Log Live-View
 * Git-Repository Cleanup-Hook (Post Job-Run)
+* Refactored runtime secret-handling (`ansible-runner <https://ansible.readthedocs.io/projects/runner/en/latest/intro>`_)
 
 ----
 

@@ -13,7 +13,7 @@
 
 - name: TEST 1 | Sleeping
   ansible.builtin.pause:
-    seconds: 30
+    seconds: 60
   when: test == 'run3'
 
 - name: TEST 1 | Fail

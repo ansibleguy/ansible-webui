@@ -10,8 +10,7 @@ from aw.model.job import Job, JobExecution
 from aw.utils.util import is_null, is_set, write_file_0640
 from aw.utils.subps import process
 from aw.execute.play_credentials import write_pwd_file, get_pwd_file
-from aw.execute.util import overwrite_and_delete_file, update_status, get_path_run, job_logs, create_dirs
-from aw.model.job_credential import BaseJobCredentials
+from aw.execute.util import update_status, get_path_run, job_logs, create_dirs
 from aw.utils.handlers import AnsibleRepositoryError
 from aw.model.repository import Repository
 from aw.base import USERS
@@ -157,10 +156,6 @@ class ExecuteRepository:
     def cleanup_repository(self):
         if is_null(self.repository) or self.repository.rtype_name == 'Static':
             return
-
-        path_run_repo = self.get_path_run_repo()
-        for attr in BaseJobCredentials.SECRET_ATTRS:
-            overwrite_and_delete_file(get_pwd_file(path_run=path_run_repo, attr=attr))
 
         self._run_repo_config_cmds(cmds=self.repository.git_hook_cleanup, env=self._git_env())
         if self.repository.git_isolate:

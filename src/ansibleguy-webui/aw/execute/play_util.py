@@ -14,14 +14,13 @@ except (ImportError, ModuleNotFoundError):
 
 from aw.config.main import config
 from aw.utils.util import is_set, datetime_w_tz, write_file_0640
-from aw.model.job import Job, JobExecution, JobExecutionResult, JobExecutionResultHost, JobError
 from aw.model.job_credential import BaseJobCredentials
+from aw.model.job import Job, JobExecution, JobExecutionResult, JobExecutionResultHost, JobError
 from aw.execute.util import update_status, overwrite_and_delete_file, decode_job_env_vars, \
     create_dirs, is_execution_status, config_error
 from aw.utils.debug import log
-from aw.execute.play_credentials import get_credentials_to_use, commandline_arguments_credentials, \
-    write_pwd_file, get_pwd_file
 from aw.execute.repository import ExecuteRepository
+from aw.execute.play_credentials import get_runner_credential_args, get_credentials_to_use
 
 # see: https://ansible.readthedocs.io/projects/runner/en/latest/intro/
 
@@ -34,7 +33,7 @@ def _exec_log(execution: JobExecution, msg: str, level: int = 3):
     )
 
 
-def _commandline_arguments(job: Job, execution: JobExecution, path_run: Path) -> str:
+def _commandline_arguments(job: Job, execution: JobExecution, creds: BaseJobCredentials) -> str:
     cmd_arguments = []
     if is_set(job.cmd_args):
         cmd_arguments.append(job.cmd_args)
@@ -48,12 +47,6 @@ def _commandline_arguments(job: Job, execution: JobExecution, path_run: Path) ->
     if execution.mode_diff or job.mode_diff:
         cmd_arguments.append('--diff')
 
-    credentials = get_credentials_to_use(job=job, execution=execution)
-    if credentials is not None:
-        cmd_arguments.extend(
-            commandline_arguments_credentials(credentials=credentials, path_run=path_run)
-        )
-
     if is_set(config['path_ssh_known_hosts']) and \
             ' '.join(cmd_arguments).find('ansible_ssh_extra_args') == -1:
         if Path(config['path_ssh_known_hosts']).is_file():
@@ -63,6 +56,15 @@ def _commandline_arguments(job: Job, execution: JobExecution, path_run: Path) ->
 
         else:
             _exec_log(execution=execution, msg='Ignoring known_hosts file because it does not exist', level=5)
+
+    if is_set(creds.become_pass):
+        cmd_arguments.append('--ask-become-pass')
+
+    if is_set(creds.connect_pass):
+        cmd_arguments.append('--ask-pass')
+
+    if is_set(creds.vault_pass):
+        cmd_arguments.append('--ask-vault-pass')
 
     return ' '.join(cmd_arguments)
 
@@ -120,7 +122,9 @@ def _execution_or_job(job: Job, execution: JobExecution, attr: str):
     return None
 
 
-def _runner_options(job: Job, execution: JobExecution, path_run: Path, project_dir: str) -> dict:
+def _runner_options(
+        job: Job, execution: JobExecution, path_run: Path, project_dir: str, creds: BaseJobCredentials,
+) -> dict:
     verbosity = None
     if execution.verbosity != 0:
         verbosity = execution.verbosity
@@ -128,7 +132,7 @@ def _runner_options(job: Job, execution: JobExecution, path_run: Path, project_d
     elif job.verbosity != 0:
         verbosity = job.verbosity
 
-    cmdline_args = _commandline_arguments(job=job, execution=execution, path_run=path_run)
+    cmdline_args = _commandline_arguments(job=job, execution=execution, creds=creds)
 
     opts = {
         'project_dir': project_dir,
@@ -147,7 +151,8 @@ def _runner_options(job: Job, execution: JobExecution, path_run: Path, project_d
 def runner_prep(job: Job, execution: JobExecution, path_run: Path, project_dir: str) -> dict:
     update_status(execution, status='Starting')
 
-    opts = _runner_options(job=job, execution=execution, path_run=path_run, project_dir=project_dir)
+    creds = get_credentials_to_use(job=job, execution=execution)
+    opts = _runner_options(job=job, execution=execution, path_run=path_run, project_dir=project_dir, creds=creds)
     opts['playbook'] = job.playbook_file
     if is_set(job.inventory_file):
         opts['inventory'] = job.inventory_file.split(',')
@@ -166,12 +171,11 @@ def runner_prep(job: Job, execution: JobExecution, path_run: Path, project_dir: 
     create_dirs(path=path_run, desc='run')
     create_dirs(path=config['path_log'], desc='log')
 
-    credentials = get_credentials_to_use(job=job, execution=execution)
-    for secret_attr in BaseJobCredentials.SECRET_ATTRS:
-        write_pwd_file(credentials, attr=secret_attr, path_run=path_run)
-
     update_status(execution, status='Running')
-    return opts
+    return {
+        **opts,
+        **get_runner_credential_args(creds=creds),
+    }
 
 
 def runner_logs(cfg: RunnerConfig, log_files: dict):
@@ -196,8 +200,6 @@ def runner_logs(cfg: RunnerConfig, log_files: dict):
 def runner_cleanup(execution: JobExecution, path_run: Path, exec_repo: ExecuteRepository):
     overwrite_and_delete_file(f"{path_run}/env/passwords")
     overwrite_and_delete_file(f"{path_run}/env/ssh_key")
-    for attr in BaseJobCredentials.SECRET_ATTRS:
-        overwrite_and_delete_file(get_pwd_file(path_run=path_run, attr=attr))
 
     try:
         exec_repo.cleanup_repository()
