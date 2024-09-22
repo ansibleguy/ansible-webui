@@ -17,6 +17,7 @@ cd "$(dirname "$0")/../docker"
 IMAGE_REPO="ansible0guy/webui"
 IMAGE_REPO_UNPRIV="${IMAGE_REPO}-unprivileged"
 IMAGE_REPO_AWS="${IMAGE_REPO}-aws"
+RELEASE_ARCHS="linux/arm/v7,linux/arm64/v8,linux/amd64"
 
 image="${IMAGE_REPO}:${VERSION}"
 image_latest="${IMAGE_REPO}:latest"
@@ -62,27 +63,27 @@ fi
 
 echo ''
 echo "### BUILDING IMAGE ${image} ###"
-docker build -f Dockerfile_production -t "$image" --build-arg "AW_VERSION=${VERSION}" --no-cache .
+docker build -f Dockerfile_production -t "$image" --build-arg "AW_VERSION=${VERSION}" --no-cache --platform "$RELEASE_ARCHS" .
 
 if [[ "$REPLY" =~ ^[Yy]$ ]]
 then
-  docker build -f Dockerfile_production -t "$image_latest" --build-arg "AW_VERSION=${VERSION}" .
+  docker build -f Dockerfile_production -t "$image_latest" --build-arg "AW_VERSION=${VERSION}" --platform "$RELEASE_ARCHS" .
 fi
 
 echo ''
 echo "### BUILDING IMAGE ${image_unpriv} ###"
-docker build -f Dockerfile_production_unprivileged -t "$image_unpriv" --build-arg "AW_VERSION=${VERSION}" --no-cache .
+docker build -f Dockerfile_production_unprivileged -t "$image_unpriv" --build-arg "AW_VERSION=${VERSION}" --no-cache --platform "$RELEASE_ARCHS" .
 
 if [[ "$REPLY" =~ ^[Yy]$ ]]
 then
-  docker build -f Dockerfile_production_unprivileged -t "$image_unpriv_latest" --build-arg "AW_VERSION=${VERSION}" .
+  docker build -f Dockerfile_production_unprivileged -t "$image_unpriv_latest" --build-arg "AW_VERSION=${VERSION}" --platform "$RELEASE_ARCHS" .
 fi
 
 echo ''
 echo "### BUILDING IMAGE ${image_aws} ###"
-docker build -f Dockerfile_production_aws -t "$image_aws" --build-arg "AW_VERSION=${VERSION}" --no-cache --progress=plain .
+docker build -f Dockerfile_production_aws -t "$image_aws" --build-arg "AW_VERSION=${VERSION}" --no-cache --progress=plain --platform "$RELEASE_ARCHS" .
 
 if [[ "$REPLY" =~ ^[Yy]$ ]]
 then
-  docker build -f Dockerfile_production_aws -t "$image_aws_latest" --build-arg "AW_VERSION=${VERSION}" .
+  docker build -f Dockerfile_production_aws -t "$image_aws_latest" --build-arg "AW_VERSION=${VERSION}" --platform "$RELEASE_ARCHS" .
 fi
