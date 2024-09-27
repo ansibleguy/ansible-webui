@@ -99,10 +99,10 @@
         </div>
     </div>
     <div id="aw-api-data-tmpl-actions" hidden="hidden">
-        <button class="btn btn-primary aw-btn-action aw-api-click" title="Quick Execution" aw-api-endpoint="job" aw-api-item="${ID}" aw-api-method="post" ${DISABLE}>
+        <button class="btn btn-primary aw-btn-action aw-api-click" title="Quick Execution" aw-api-endpoint="job" aw-api-item="${ID}" aw-api-method="post" id="aw-quick-exec-${ID}" ${DISABLE}>
             {% include "../button/icon/run.html" %}
         </button>
-        <button class="btn btn-primary aw-btn-action aw-btn-expand-child" title="Custom Execution" aw-expand="aw-spoiler-${ID}">
+        <button class="btn btn-primary aw-btn-action aw-btn-expand-child aw-btn-custom-execution" title="Custom Execution" aw-expand="aw-spoiler-${ID}" aw-quick-exec="aw-quick-exec-${ID}">
             {% include "../button/icon/expand.html" %}
         </button>
         <a href="/ui/jobs/log?job=${ID}">

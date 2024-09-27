@@ -23,6 +23,7 @@ PROMPT_SIMPLE_NAMES['env_vars'] = 'Environmental Variables';
 PROMPT_SIMPLE_NAMES['cmd_args'] = 'CLI Arguments';
 PROMPT_SIMPLE_NAMES['verbosity'] = 'Verbosity';
 PROMPT_SIMPLE_NAMES['credentials'] = 'Credentials';
+const ATTR_BTN_QUICK_EXEC = 'aw-quick-exec';
 
 
 function buildExecutionFields(promptsSerialized) {
@@ -205,8 +206,20 @@ function customExecution(formElements) {
 
 }
 
+function switchQuickExecution($this) {
+    let btn = document.getElementById($this.attr(ATTR_BTN_QUICK_EXEC));
+    if (btn.disabled === true) {
+        btn.disabled = false;
+    } else {
+        btn.disabled = true;
+    }
+}
+
 $( document ).ready(function() {
     apiEndpoint = "/api/job?executions=true&execution_count=1";
     fetchApiTableData(apiEndpoint, updateApiTableDataJob, true);
     setInterval('fetchApiTableData(apiEndpoint, updateApiTableDataJob, true)', (DATA_REFRESH_SEC * 1000));
+    $('.aw-main').on('click', '.aw-btn-custom-execution', function() {
+        switchQuickExecution(jQuery(this));
+    })
 });
