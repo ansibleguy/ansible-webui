@@ -7,9 +7,9 @@
 * Fix for Nginx config-example
 * Fix for Log-Directory creation
 * Enable SSH host-key checking by default (*ansible-runner seem to disable it by default*) 
-* Enhanced Bottons of Log Live-View
+* Enhanced Buttons of Log Live-View
 * Git-Repository Cleanup-Hook (Post Job-Run)
-* Refactored runtime secret-handling (`ansible-runner <https://ansible.readthedocs.io/projects/runner/en/latest/intro>`_)
+* Refactored runtime secret-handling ([ansible-runner](https://ansible.readthedocs.io/projects/runner/en/latest/intro))
 * Disabling quick-execution button if custom-execution form is open
 
 ----
