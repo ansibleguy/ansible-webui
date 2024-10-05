@@ -2,6 +2,12 @@
 
 ## Version 0
 
+### 0.0.25
+
+* Cleanup job-stati on startup
+
+----
+
 ### 0.0.24
 
 * Fix for Nginx config-example
