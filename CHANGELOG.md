@@ -2,9 +2,10 @@
 
 ## Version 0
 
-### 0.0.25
+### 0.0.24-2
 
 * Cleanup job-stati on startup
+* Fix Log-view expand-on-waiting behavior
 
 ----
 

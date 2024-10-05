@@ -51,9 +51,9 @@ function updateApiTableDataJobLogs(row, row2, entry) {
     actionsTemplate = actionsTemplate.replaceAll('${ID}', entry.id);
     actionsTemplate = actionsTemplate.replaceAll('${JOB_ID}', entry.job);
     if (entry.status_name.toLowerCase() == 'waiting') {
-        actionsTemplate = actionsTemplate.replaceAll('${DISABLE}', 'disabled');
+        actionsTemplate = actionsTemplate.replaceAll('${disable}', 'disabled');
     } else {
-        actionsTemplate = actionsTemplate.replaceAll('${DISABLE}', '');
+        actionsTemplate = actionsTemplate.replaceAll('${disable}', '');
     }
     row.cells[4].innerHTML = actionsTemplate;
 
