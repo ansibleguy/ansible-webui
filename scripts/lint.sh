@@ -11,7 +11,7 @@ echo 'LINTING Python'
 echo ''
 
 export DJANGO_SETTINGS_MODULE='aw.settings'
-pylint --recursive=y --load-plugins pylint_django --django-settings-module=aw.settings .
+pylint --rcfile .pylintrc --recursive=y --load-plugins pylint_django --django-settings-module=aw.settings .
 
 echo ''
 echo 'LINTING YAML'

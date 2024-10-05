@@ -17,6 +17,8 @@ from aw.utils.deployment import deployment_prod, is_release_version
 from aw.config.hardcoded import FILE_TIME_FORMAT, GRP_MANAGER
 from aw.config.environment import check_aw_env_var_true, get_aw_env_var, check_aw_env_var_is_set
 
+# pylint: disable=C0415
+
 DB_BACKUP_EXT = '.auto.bak'
 DB_BACKUP_RETENTION_DAYS = 7
 
@@ -187,7 +189,6 @@ def _migration_needed() -> bool:
 
 
 def create_first_superuser():
-    # pylint: disable=C0415
     from aw.base import USERS
     if len(USERS.objects.filter(is_superuser=True)) == 0:
         name = get_aw_env_var('init_admin')
@@ -216,7 +217,6 @@ def create_first_superuser():
 
 
 def create_manager_groups():
-    # pylint: disable=C0415
     from django.contrib.auth.models import Group
     for grp in GRP_MANAGER.values():
         Group.objects.get_or_create(name=grp)
