@@ -6,6 +6,7 @@
 
 * Cleanup job-stati on startup
 * Fix Log-view expand-on-waiting behavior
+* Fix known_hosts cli-argument
 
 ----
 

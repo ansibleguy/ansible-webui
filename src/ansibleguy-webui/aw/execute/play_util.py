@@ -51,7 +51,7 @@ def _commandline_arguments(job: Job, execution: JobExecution, creds: BaseJobCred
             ' '.join(cmd_arguments).find('ansible_ssh_extra_args') == -1:
         if Path(config['path_ssh_known_hosts']).is_file():
             cmd_arguments.append(
-                f"-e \"ansible_ssh_extra_args='-o UserKnownHostsFile={config['path_ssh_known_hosts']}'\""
+                f"-e 'ansible_ssh_extra_args=\"-o UserKnownHostsFile={config['path_ssh_known_hosts']}\"'"
             )
 
         else:
