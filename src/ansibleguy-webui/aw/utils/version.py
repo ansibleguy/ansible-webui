@@ -41,7 +41,8 @@ def parsed_ansible_version(python_modules) -> dict:
         versions['libyaml'] = ansible_version[-1].split('=')[1].strip()
 
         if 'ansible-runner' in python_modules:
-            versions['ansible_runner'] = python_modules['ansible-runner']['version']
+            # versions['ansible_runner'] = python_modules['ansible-runner']['version']
+            versions['ansible_runner'] = python_modules['ansibleguy-runner']['version']
 
         if 'ansible' in python_modules:
             versions['ansible'] = python_modules['ansible']['version']

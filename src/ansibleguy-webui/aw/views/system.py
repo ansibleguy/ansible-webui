@@ -6,7 +6,7 @@ from django.urls import path
 from django.shortcuts import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from ansible_runner.interface import get_ansible_config
+from ansibleguy_runner.interface import get_ansible_config
 
 from aw.utils.http import ui_endpoint_wrapper
 from aw.utils.subps import process_cache
