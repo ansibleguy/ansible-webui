@@ -22,7 +22,8 @@ crontab
 
 # ansible
 ansible-core
-ansible-runner
+# ansible-runner
+ansibleguy-runner==2.4.0.post3
 
 # config
 PyYAML

@@ -5,7 +5,7 @@ from os import path as os_path
 from os import remove as remove_file
 from os import stat as os_stat
 
-from ansible_runner import Runner, RunnerConfig
+from ansibleguy_runner import Runner, RunnerConfig
 try:
     from ara.setup.callback_plugins import callback_plugins as ara_callback_plugins
 

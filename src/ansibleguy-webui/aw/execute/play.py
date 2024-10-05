@@ -1,6 +1,6 @@
 import traceback
 
-from ansible_runner import RunnerConfig, Runner
+from ansibleguy_runner import RunnerConfig, Runner
 
 from aw.config.main import config
 from aw.model.job import Job, JobExecution, JobExecutionResult
@@ -15,10 +15,7 @@ from aw.utils.debug import log
 
 class AwRunnerConfig(RunnerConfig):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.quiet = True
-        self.runner_mode = 'subprocess'
-        self.timeout = config['run_timeout']
+        super().__init__(**kwargs, timeout=config['run_timeout'], quiet=True)
 
 
 def ansible_playbook(job: Job, execution: (JobExecution, None)):
