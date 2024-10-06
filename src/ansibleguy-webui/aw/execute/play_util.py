@@ -33,7 +33,7 @@ def _exec_log(execution: JobExecution, msg: str, level: int = 3):
     )
 
 
-def _commandline_arguments(job: Job, execution: JobExecution, creds: BaseJobCredentials) -> str:
+def _commandline_arguments(job: Job, execution: JobExecution, creds: (BaseJobCredentials, None)) -> str:
     cmd_arguments = []
     if is_set(job.cmd_args):
         cmd_arguments.append(job.cmd_args)
@@ -57,20 +57,21 @@ def _commandline_arguments(job: Job, execution: JobExecution, creds: BaseJobCred
         else:
             _exec_log(execution=execution, msg='Ignoring known_hosts file because it does not exist', level=5)
 
-    if is_set(creds.become_pass):
-        cmd_arguments.append('--ask-become-pass')
+    if is_set(creds):
+        if is_set(creds.become_pass):
+            cmd_arguments.append('--ask-become-pass')
 
-    if is_set(creds.become_user):
-        cmd_arguments.append(f'--become-user {creds.become_user}')
+        if is_set(creds.become_user):
+            cmd_arguments.append(f'--become-user {creds.become_user}')
 
-    if is_set(creds.connect_pass):
-        cmd_arguments.append('--ask-pass')
+        if is_set(creds.connect_pass):
+            cmd_arguments.append('--ask-pass')
 
-    if is_set(creds.connect_user):
-        cmd_arguments.append(f'--user {creds.connect_user}')
+        if is_set(creds.connect_user):
+            cmd_arguments.append(f'--user {creds.connect_user}')
 
-    if is_set(creds.vault_pass):
-        cmd_arguments.append('--ask-vault-pass')
+        if is_set(creds.vault_pass):
+            cmd_arguments.append('--ask-vault-pass')
 
     return ' '.join(cmd_arguments)
 
@@ -129,7 +130,7 @@ def _execution_or_job(job: Job, execution: JobExecution, attr: str):
 
 
 def _runner_options(
-        job: Job, execution: JobExecution, path_run: Path, project_dir: str, creds: BaseJobCredentials,
+        job: Job, execution: JobExecution, path_run: Path, project_dir: str, creds: (BaseJobCredentials, None),
 ) -> dict:
     verbosity = None
     if execution.verbosity != 0:

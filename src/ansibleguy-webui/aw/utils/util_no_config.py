@@ -15,5 +15,5 @@ def is_null(data) -> bool:
     return str(data).strip() == ''
 
 
-def is_set(data: str) -> bool:
+def is_set(data) -> bool:
     return not is_null(data)
