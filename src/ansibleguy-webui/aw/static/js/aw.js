@@ -339,6 +339,10 @@ function fetchApiTableDataPlaceholder(dataTable, placeholderId) {
 // for example with two tables - see: 'job-credentials'
 function fetchApiTableData(apiEndpoint, updateFunction, secondRow = false, placeholderFunction = null, targetTable = null, dataSubKey = null, reverseData = false) {
     // NOTE: data needs to be list of dict and include an 'id' attribute
+    if (typeof(document.hidden) !== undefined && document['hidden']) {
+        return;
+    }
+
     if (targetTable == null) {
         targetTable = ELEM_ID_TABLE;
     }
