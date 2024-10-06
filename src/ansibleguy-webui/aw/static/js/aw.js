@@ -238,6 +238,20 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+pressed_shift = false;
+function shift_s_handler() {
+    for (let f of document.getElementsByTagName('form')) {
+        if (f.action.includes('/api')) {
+            // NOTE: form.submit is not working as we want to catch it later on
+            let saveButtons = f.querySelectorAll("button[title=Save]");
+            if (saveButtons.length > 0) {
+                saveButtons[0].click();
+            }
+        }
+    }
+    $('html, body').animate({ scrollTop: 0 }, 'fast');
+}
+
 // API CALLS
 const CSRF_TOKEN = getCookie('csrftoken');
 
@@ -533,5 +547,18 @@ $( document ).ready(function() {
     });
     $(".aw-main").on("input", ".aw-fs-exists", function(){
         apiFsExists(jQuery(this));
+    });
+    $(document).on("keyup", function(e){
+        if (e.keyCode == 16) {
+            pressed_shift = false;
+        }
+    });
+    $(document).on("keydown", function(e){
+        if (e.keyCode == 16) {
+            pressed_shift = true;
+        }
+        if (e.keyCode == 83 && pressed_shift === true) {
+            shift_s_handler();
+        }
     });
 });

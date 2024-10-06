@@ -2,6 +2,13 @@
 
 ## Version 0
 
+### 0.0.25
+
+* Disable data-refresh if in background
+* Allow to save current form by using SHIFT+S
+
+----
+
 ### 0.0.24-2
 
 * Cleanup job-stati on startup
