@@ -21,6 +21,7 @@ from aw.execute.util import update_status, overwrite_and_delete_file, decode_job
 from aw.utils.debug import log
 from aw.execute.repository import ExecuteRepository
 from aw.execute.play_credentials import get_runner_credential_args, get_credentials_to_use
+from aw.model.base import JOB_EXEC_STATUS_FAILED
 
 # see: https://ansible.readthedocs.io/projects/runner/en/latest/intro/
 
@@ -263,7 +264,7 @@ def parse_run_result(execution: JobExecution, result: JobExecutionResult, runner
         any_task_failed = _run_stats(runner=runner, result=result)
 
     if runner.errored or runner.timed_out or runner.rc != 0 or any_task_failed:
-        update_status(execution, status='Failed')
+        update_status(execution, status=JOB_EXEC_STATUS_FAILED)
 
     else:
         status = 'Finished'
@@ -277,7 +278,7 @@ def failure(
         execution: JobExecution, exec_repo: ExecuteRepository, path_run: Path,
         result: JobExecutionResult, error_s: str, error_m: str
 ):
-    update_status(execution, status='Failed')
+    update_status(execution, status=JOB_EXEC_STATUS_FAILED)
     job_error = JobError(
         short=error_s,
         med=error_m,

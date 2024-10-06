@@ -63,7 +63,7 @@ def ansible_playbook(job: Job, execution: (JobExecution, None)):
         runner_cleanup(execution=execution, path_run=path_run, exec_repo=exec_repo)
         Alert(job=job, execution=execution).go()
 
-    except (OSError, AnsibleConfigError) as err:
+    except (OSError, AnsibleConfigError, ValueError, AttributeError, IndexError, KeyError) as err:
         tb = traceback.format_exc(limit=1024)
         failure(
             execution=execution, exec_repo=exec_repo, path_run=path_run, result=result,

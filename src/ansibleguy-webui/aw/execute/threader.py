@@ -11,13 +11,15 @@ from aw.model.job import Job, JobExecution
 from aw.execute.play import ansible_playbook
 from aw.utils.handlers import AnsibleConfigError, AnsibleRepositoryError
 from aw.utils.util import get_next_cron_execution_sec, get_next_cron_execution_str, is_set
+from aw.execute.util import update_status
+from aw.model.base import JOB_EXEC_STATUS_ACTIVE, JOB_EXEC_STATUS_FAILED
 
 
 class Workload(Thread):
     FAIL_SLEEP = 5
     MAX_CONFIG_INVALID = 3
 
-    def __init__(self, job: Job, manager, name: str, execution: JobExecution, once: bool = False, daemon: bool = True):
+    def __init__(self, job: Job, manager, name: str, execution: (JobExecution, None), once: bool = False, daemon: bool = True):
         Thread.__init__(self, daemon=daemon, name=name)
         self.job = job
         self.execution = execution
@@ -43,6 +45,9 @@ class Workload(Thread):
         except RuntimeError:
             # 'cannot join current thread'
             pass
+
+        if self.execution is not None and self.execution.status in JOB_EXEC_STATUS_ACTIVE:
+            update_status(self.execution, status=JOB_EXEC_STATUS_FAILED)
 
         log(f"Stopped thread {self.log_name_debug}", level=4)
         self.started = False

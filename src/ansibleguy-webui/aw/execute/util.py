@@ -50,8 +50,11 @@ def decode_job_env_vars(env_vars_csv: str, src: str) -> dict:
         return {}
 
 
-def update_status(obj: (JobExecution, Repository), status: str):
-    obj.status = obj.status_id_from_name(status)
+def update_status(obj: (JobExecution, Repository), status: (str, int)):
+    if isinstance(status, str):
+        status = obj.status_id_from_name(status)
+
+    obj.status = status
     obj.save()
 
 

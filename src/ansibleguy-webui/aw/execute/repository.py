@@ -14,6 +14,7 @@ from aw.execute.util import update_status, get_path_run, job_logs, create_dirs
 from aw.utils.handlers import AnsibleRepositoryError
 from aw.model.repository import Repository
 from aw.base import USERS
+from aw.model.base import JOB_EXEC_STATUS_FAILED
 
 
 class ExecuteRepository:
@@ -113,7 +114,7 @@ class ExecuteRepository:
 
     def _error(self, msg: str):
         write_file_0640(file=self.repository.log_stderr, content=msg)
-        update_status(self.repository, status='Failed')
+        update_status(self.repository, status=JOB_EXEC_STATUS_FAILED)
         raise AnsibleRepositoryError(msg).with_traceback(None) from None
 
     def get_path_run_repo(self) -> Path:

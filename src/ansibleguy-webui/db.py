@@ -223,15 +223,7 @@ def create_manager_groups():
 
 
 def cleanup_job_stati():
-    from aw.model.base import CHOICES_JOB_EXEC_STATUS
+    from aw.model.base import JOB_EXEC_STATUS_ACTIVE, JOB_EXEC_STATUS_FAILED
     from aw.model.job import JobExecution
-    from aw.utils.util import get_choice_key_by_value
 
-    bad_stati = [
-        get_choice_key_by_value(choices=CHOICES_JOB_EXEC_STATUS, find='Waiting'),
-        get_choice_key_by_value(choices=CHOICES_JOB_EXEC_STATUS, find='Running'),
-        get_choice_key_by_value(choices=CHOICES_JOB_EXEC_STATUS, find='Stopping'),
-    ]
-    set_status = get_choice_key_by_value(choices=CHOICES_JOB_EXEC_STATUS, find='Failed')
-
-    JobExecution.objects.filter(status__in=bad_stati).update(status=set_status)
+    JobExecution.objects.filter(status__in=JOB_EXEC_STATUS_ACTIVE).update(status=JOB_EXEC_STATUS_FAILED)

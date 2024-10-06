@@ -2,6 +2,14 @@
 
 ## Version 0
 
+### 0.0.25
+
+* Handle edge-case error of schedule
+* Handle jobs without credentials
+* Cleanup execution status if thread stopped
+
+----
+
 ### 0.0.24-3
 
 * Disable data-refresh if in background
