@@ -2,10 +2,11 @@
 
 ## Version 0
 
-### 0.0.25
+### 0.0.24-3
 
 * Disable data-refresh if in background
 * Allow to save current form by using SHIFT+S
+* Add missing become- and connect-user
 
 ----
 

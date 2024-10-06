@@ -60,8 +60,14 @@ def _commandline_arguments(job: Job, execution: JobExecution, creds: BaseJobCred
     if is_set(creds.become_pass):
         cmd_arguments.append('--ask-become-pass')
 
+    if is_set(creds.become_user):
+        cmd_arguments.append(f'--become-user {creds.become_user}')
+
     if is_set(creds.connect_pass):
         cmd_arguments.append('--ask-pass')
+
+    if is_set(creds.connect_user):
+        cmd_arguments.append(f'--user {creds.connect_user}')
 
     if is_set(creds.vault_pass):
         cmd_arguments.append('--ask-vault-pass')
