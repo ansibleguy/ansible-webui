@@ -81,7 +81,14 @@ class Workload(Thread):
                 return
 
             while not self.state_stop.is_set():
+                if not is_set(self.job.schedule):
+                    return
+
                 wait_sec = get_next_cron_execution_sec(self.job.schedule)
+
+                if wait_sec == -1:
+                    return
+
                 self.next_execution_time = get_next_cron_execution_str(schedule=self.job.schedule, wait_sec=wait_sec)
                 log(
                     f"Next execution of job {self.log_name_debug} at "
@@ -96,6 +103,7 @@ class Workload(Thread):
 
                     log(f"Starting job {self.log_name_debug}", level=5)
                     self.run_playbook()
+
                     break
 
         except (AnsibleConfigError, AnsibleRepositoryError, OSError) as err:

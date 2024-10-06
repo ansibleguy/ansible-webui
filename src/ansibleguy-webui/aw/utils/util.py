@@ -46,20 +46,30 @@ def datetime_from_db_str(dt: (datetime, None), fmt: str = SHORT_TIME_FORMAT) -> 
 
 
 def get_next_cron_execution_sec(schedule: str) -> float:
-    cron = CronTab(schedule)
-    set_timezone(str(config.timezone))
-    return cron.next(now=datetime_w_tz())
+    try:
+        cron = CronTab(schedule)
+        set_timezone(str(config.timezone))
+        return cron.next(now=datetime_w_tz())
+
+    except ValueError:
+        return -1
 
 
-def get_next_cron_execution(schedule: str, wait_sec: (int, float) = None) -> datetime:
+def get_next_cron_execution(schedule: str, wait_sec: (int, float) = None) -> (datetime, None):
     if wait_sec is None:
         wait_sec = get_next_cron_execution_sec(schedule)
+        if wait_sec == -1:
+            return None
 
     return datetime.fromtimestamp(time() + wait_sec)
 
 
 def get_next_cron_execution_str(schedule: str, wait_sec: (int, float) = None) -> str:
-    return get_next_cron_execution(schedule, wait_sec).strftime(SHORT_TIME_FORMAT)
+    next_exec_dt = get_next_cron_execution(schedule, wait_sec)
+    if next_exec_dt is None:
+        return ''
+
+    return next_exec_dt.strftime(SHORT_TIME_FORMAT)
 
 
 def _open_file_0600(path: (str, Path), flags):

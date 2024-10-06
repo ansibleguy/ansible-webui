@@ -93,7 +93,7 @@ def get_viewable_jobs_serialized(
         job_serialized['next_run'] = None
 
         try:
-            if job.schedule is not None and job.enabled:
+            if is_set(job.schedule) and job.enabled:
                 job_serialized['next_run'] = get_next_cron_execution_str(job.schedule) + f" {config['timezone']}"
 
         except ValueError:
