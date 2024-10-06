@@ -557,7 +557,7 @@ $( document ).ready(function() {
         if (e.keyCode == 16) {
             pressed_shift = true;
         }
-        if (e.keyCode == 83 && pressed_shift === true) {
+        if (pressed_shift === true && e.keyCode == 83) {
             shift_s_handler();
         }
     });
