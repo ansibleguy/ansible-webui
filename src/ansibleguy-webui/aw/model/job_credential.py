@@ -8,12 +8,6 @@ from aw.base import USERS
 
 class BaseJobCredentials(BaseModel):
     SECRET_ATTRS = ['become_pass', 'vault_pass', 'connect_pass', 'ssh_key']
-    SECRET_ATTRS_ARGS = {
-        'vault_pass': 'vault-password-file',
-        'become_pass': 'become-password-file',
-        'connect_pass': 'connection-password-file',
-        'ssh_key': 'key-file',
-    }
     PUBLIC_ATTRS_ARGS = {
         'connect_user': '--user',
         'become_user': '--become-user',

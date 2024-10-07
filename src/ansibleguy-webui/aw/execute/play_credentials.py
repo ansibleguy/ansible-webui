@@ -15,13 +15,6 @@ def get_pwd_file(path_run: (str, Path), attr: str) -> str:
     return f"{path_run}/.aw_{attr}"
 
 
-def get_pwd_file_arg(credentials: BaseJobCredentials, attr: str, path_run: (Path, str)) -> (str, None):
-    if is_null(getattr(credentials, attr)):
-        return None
-
-    return f"--{BaseJobCredentials.SECRET_ATTRS_ARGS[attr]} {get_pwd_file(path_run=path_run, attr=attr)}"
-
-
 def write_pwd_file(credentials: BaseJobCredentials, attr: str, path_run: (Path, str)):
     if credentials is None or is_null(getattr(credentials, attr)):
         return None
