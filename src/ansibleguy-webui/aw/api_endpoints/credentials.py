@@ -121,6 +121,9 @@ SSH_KEY_APPENDIX = '-----END OPENSSH PRIVATE KEY-----'
 
 
 def _validate_and_fix_ssh_key(key: str) -> (str, None):
+    if is_null(key):
+        return ''
+
     if key.find(SSH_KEY_PREFIX) == -1:
         # only support unencrypted keys for now
         return None

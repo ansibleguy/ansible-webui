@@ -7,6 +7,7 @@
 * Handle edge-case error of schedule
 * Handle jobs without credentials
 * Cleanup execution status if thread stopped
+* Fix editing of credentials (*ssk-key invalid*)
 
 ----
 
