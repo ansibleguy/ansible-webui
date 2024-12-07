@@ -20,15 +20,15 @@ There are multiple Ansible WebUI products - how do they compare to this product?
    The actual enterprise solution named 'Ansible Automation Platform' can be pretty expensive.
 
 
-* `Ansible Semaphore <https://github.com/ansible-semaphore/semaphore>`_
+* `Semaphore UI <https://github.com/semaphoreui/semaphore>`_
 
    Semaphore is a pretty lightweight WebUI for Ansible.
 
    It is a single binary and built from Golang (backend) and Node.js/Vue.js (frontend).
 
-   Ansible job execution is done using `custom implementation <https://github.com/ansible-semaphore/semaphore/blob/develop/db_lib/AnsiblePlaybook.go>`_.
+   Ansible job execution is done using `custom implementation <https://github.com/semaphoreui/semaphore/blob/develop/db_lib/AnsiblePlaybook.go>`_.
 
-   The project is `managed by a single maintainer and has some issues <https://github.com/ansible-semaphore/semaphore/discussions/1111>`_. It seems to develop in the direction of large-scale containerized deployments.
+   The project is `managed by a single maintainer and has some issues <https://github.com/semaphoreui/semaphore/discussions/1111>`_. It seems to develop in the direction of large-scale containerized deployments.
 
    The 'Ansible-WebUI' project was inspired by Semaphore.
 
