@@ -8,3 +8,4 @@ __pychache__.py
 **/aw*.db-shm
 **/aw*.db-wal
 VERSION
+docs/build/
