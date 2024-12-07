@@ -19,7 +19,10 @@ class Workload(Thread):
     FAIL_SLEEP = 5
     MAX_CONFIG_INVALID = 3
 
-    def __init__(self, job: Job, manager, name: str, execution: (JobExecution, None), once: bool = False, daemon: bool = True):
+    def __init__(
+            self, job: Job, manager, name: str, execution: (JobExecution, None),
+            once: bool = False, daemon: bool = True,
+    ):
         Thread.__init__(self, daemon=daemon, name=name)
         self.job = job
         self.execution = execution
