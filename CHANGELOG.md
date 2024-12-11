@@ -51,7 +51,7 @@
 
 ### 0.0.22
 
-* Improved [custom execution prompts](https://webui.ansibleguy.net/en/latest/usage/jobs.html#execute)
+* Improved [custom execution prompts](https://webui.ansibleguy.net/usage/jobs.html#execute)
 
 ----
 
@@ -93,7 +93,7 @@
 
 ### 0.0.17
 
-* [Integration for SAML-SSO Identity Providers](https://webui.ansibleguy.net/en/latest/usage/authentication.html)
+* [Integration for SAML-SSO Identity Providers](https://webui.ansibleguy.net/usage/authentication.html)
 
 ----
 
@@ -126,7 +126,7 @@
   * Added timezone to datetime
   * Style non-existent log-files
 * HTTPS support
-* [ARA config integration](https://webui.ansibleguy.net/en/latest/usage/integrations.html)
+* [ARA config integration](https://webui.ansibleguy.net/usage/integrations.html)
 * Global Environmental-Variables for Jobs
 
 ----
@@ -150,8 +150,8 @@
 * Privilege System - Manager Groups
 * Password-Change UI
 * Docker
-  * Support to [run as unprivileged user](https://webui.ansibleguy.net/en/latest/usage/docker.html#unprivileged)
-  * [Image with AWS-CLI support](https://webui.ansibleguy.net/en/latest/usage/docker.html#aws-cli-support)
+  * Support to [run as unprivileged user](https://webui.ansibleguy.net/usage/docker.html#unprivileged)
+  * [Image with AWS-CLI support](https://webui.ansibleguy.net/usage/docker.html#aws-cli-support)
 * Enhanced handling of [SQLite Write-Locks](https://github.com/ansibleguy/webui/issues/6)
 
 
