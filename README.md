@@ -67,6 +67,9 @@ Testers are also very welcome! Please [give feedback](https://github.com/ansible
 
 See also: [Contributing](https://github.com/ansibleguy/webui/blob/latest/CONTRIBUTE.md)
 
+<img src="https://contrib.rocks/image?repo=ansibleguy/webui&max=5" />
+
+
 ----
 
 ## Roadmap
