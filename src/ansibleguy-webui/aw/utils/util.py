@@ -14,6 +14,7 @@ from threading import Thread
 from pkg_resources import get_distribution
 from crontab import CronTab
 from pytz import utc
+from django.utils.html import escape as escape_html
 
 from aw.config.main import config
 from aw.config.hardcoded import SHORT_TIME_FORMAT
@@ -251,6 +252,8 @@ ANSIBLE_LOG_COLOR_MAP = {
 
 
 def ansible_log_html(line: str) -> str:
+    line = escape_html(line)
+
     for color_code, color_html in ANSIBLE_LOG_COLOR_MAP.items():
         line = line.replace(color_code, color_html)
 
