@@ -9,7 +9,7 @@ from aw.execute.util import get_path_run, is_execution_status, job_logs
 from aw.execute.repository import ExecuteRepository
 from aw.execute.alert import Alert
 from aw.utils.util import datetime_w_tz, is_null, timed_lru_cache  # get_ansible_versions
-from aw.utils.handlers import AnsibleConfigError
+from aw.utils.handlers import AnsibleConfigError, AnsibleRepositoryError
 from aw.utils.debug import log
 
 
@@ -63,7 +63,10 @@ def ansible_playbook(job: Job, execution: (JobExecution, None)):
         runner_cleanup(execution=execution, path_run=path_run, exec_repo=exec_repo)
         Alert(job=job, execution=execution).go()
 
-    except (OSError, AnsibleConfigError, ValueError, AttributeError, IndexError, KeyError) as err:
+    except (
+            AnsibleConfigError, AnsibleRepositoryError,
+            OSError, ValueError, AttributeError, IndexError, KeyError,
+    ) as err:
         tb = traceback.format_exc(limit=1024)
         failure(
             execution=execution, exec_repo=exec_repo, path_run=path_run, result=result,

@@ -121,7 +121,10 @@ class ExecuteRepository:
         return self.path_run / '.repository'
 
     def _git_env(self) -> dict:
-        env = {'GIT_SSH_COMMAND': 'ssh'}
+        env = {
+            'GIT_SSH_COMMAND': f'ssh -o ConnectTimeout=10',
+            'GIT_HTTP_CONNECT_TIMEOUT': '10',
+        }
         if self.repository.git_origin.find(' -p') != -1:
             try:
                 self.repository.git_origin, port = self.repository.git_origin.split(' -p')
@@ -182,6 +185,7 @@ class ExecuteRepository:
         if self.path_repo is None:
             self.path_repo = self.get_path_repo()
 
+        cmd = f'timeout {self.repository.git_timeout} {cmd}'
         result = process(cmd=cmd, cwd=self.path_repo, env=env, shell=True, timeout_sec=REPO_CLONE_TIMEOUT)
         self._log_file_write(f"COMMAND: {cmd}\n{result['stdout']}")
         if result['rc'] != 0:

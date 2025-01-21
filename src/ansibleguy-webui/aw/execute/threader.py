@@ -12,7 +12,7 @@ from aw.execute.play import ansible_playbook
 from aw.utils.handlers import AnsibleConfigError, AnsibleRepositoryError
 from aw.utils.util import get_next_cron_execution_sec, get_next_cron_execution_str, is_set
 from aw.execute.util import update_status
-from aw.model.base import JOB_EXEC_STATUS_ACTIVE, JOB_EXEC_STATUS_FAILED
+from aw.model.base import JOB_EXEC_STATI_ACTIVE, JOB_EXEC_STATUS_FAILED, JOB_EXEC_STATUS_RETRY
 
 
 class Workload(Thread):
@@ -49,7 +49,7 @@ class Workload(Thread):
             # 'cannot join current thread'
             pass
 
-        if self.execution is not None and self.execution.status in JOB_EXEC_STATUS_ACTIVE:
+        if self.execution is not None and self.execution.status in JOB_EXEC_STATI_ACTIVE:
             update_status(self.execution, status=JOB_EXEC_STATUS_FAILED)
 
         log(f"Stopped thread {self.log_name_debug}", level=4)
@@ -61,6 +61,9 @@ class Workload(Thread):
         ansible_playbook(job=self.job, execution=self.execution)
 
     def run(self, error: bool = False) -> None:
+        if error and is_set(self.execution):
+            update_status(self.execution, status=JOB_EXEC_STATUS_RETRY)
+
         if self.once and self.started:
             self.stop()
             return
@@ -116,9 +119,12 @@ class Workload(Thread):
 
         except (AnsibleConfigError, AnsibleRepositoryError, OSError) as err:
             self.config_invalid += 1
+            retry_cnt = ''
+            if not self.once:
+                retry_cnt = f" ({self.config_invalid}/{self.MAX_CONFIG_INVALID})"
+
             log(
-                msg=f"Got invalid config/environment for job {self.log_name} "
-                    f"({self.config_invalid}/{self.MAX_CONFIG_INVALID}): \"{err}\"",
+                msg=f"Got invalid config/environment for job {self.log_name}{retry_cnt}: \"{err}\"",
                 level=2,
             )
             self.run(error=True)

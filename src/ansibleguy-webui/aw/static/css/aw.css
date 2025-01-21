@@ -578,8 +578,8 @@ input:invalid {
     color: red;
 }
 
-.aw-job-status-finished {
-    color: green;
+.aw-job-status-retry {
+    color: orange;
 }
 
 .aw-job-status-finished {

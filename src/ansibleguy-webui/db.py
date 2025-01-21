@@ -223,7 +223,7 @@ def create_manager_groups():
 
 
 def cleanup_job_stati():
-    from aw.model.base import JOB_EXEC_STATUS_ACTIVE, JOB_EXEC_STATUS_FAILED
+    from aw.model.base import JOB_EXEC_STATI_ACTIVE, JOB_EXEC_STATUS_FAILED
     from aw.model.job import JobExecution
 
-    JobExecution.objects.filter(status__in=JOB_EXEC_STATUS_ACTIVE).update(status=JOB_EXEC_STATUS_FAILED)
+    JobExecution.objects.filter(status__in=JOB_EXEC_STATI_ACTIVE).update(status=JOB_EXEC_STATUS_FAILED)
