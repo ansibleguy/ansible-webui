@@ -55,6 +55,11 @@ function updateApiTableDataJobLogs(row, row2, entry) {
     } else {
         actionsTemplate = actionsTemplate.replaceAll('${disable}', '');
     }
+    if (entry.user != null && entry.command != null && entry.command.includes(' -e ')) {
+        actionsTemplate = actionsTemplate.replaceAll('${disable_restart}', 'disabled');
+    } else {
+        actionsTemplate = actionsTemplate.replaceAll('${disable_restart}', '');
+    }
     row.cells[4].innerHTML = actionsTemplate;
 
     let logsTemplates = document.getElementById("aw-api-data-tmpl-logs").innerHTML;

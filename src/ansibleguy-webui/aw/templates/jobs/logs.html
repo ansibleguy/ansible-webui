@@ -27,7 +27,7 @@
         </tr>
     </table>
     <div id="aw-api-data-tmpl-actions" hidden="hidden">
-        <button class="btn btn-primary aw-btn-action aw-api-click" title="Restart Job" aw-api-endpoint="job" aw-api-item="${JOB_ID}" aw-api-method="post">
+        <button class="btn btn-primary aw-btn-action aw-api-click" title="Restart Job" aw-api-endpoint="job" aw-api-item="${JOB_ID}" aw-api-method="post" ${DISABLE_RESTART}>
             {% include "../button/icon/run.html" %}
         </button>
         <button class="btn btn-danger aw-btn-action aw-api-click" title="Stop Execution" aw-api-endpoint="job"
