@@ -42,16 +42,16 @@ class BaseJob(BaseModel):
 
     limit = models.CharField(max_length=500, **DEFAULT_NONE)
     verbosity = models.PositiveSmallIntegerField(choices=CHOICES_JOB_VERBOSITY, default=0)
-    comment = models.CharField(max_length=150, **DEFAULT_NONE)
+    comment = models.CharField(max_length=300, **DEFAULT_NONE)
     mode_diff = models.BooleanField(choices=CHOICES_BOOL, default=False)
     mode_check = models.BooleanField(choices=CHOICES_BOOL, default=False)
 
     # NOTE: one or multiple comma-separated vars
     environment_vars = models.CharField(max_length=1000, **DEFAULT_NONE)
 
-    tags = models.CharField(max_length=150, **DEFAULT_NONE)
-    tags_skip = models.CharField(max_length=150, **DEFAULT_NONE)
-    cmd_args = models.CharField(max_length=150, **DEFAULT_NONE)
+    tags = models.CharField(max_length=500, **DEFAULT_NONE)
+    tags_skip = models.CharField(max_length=500, **DEFAULT_NONE)
+    cmd_args = models.CharField(max_length=1000, **DEFAULT_NONE)
 
     class Meta:
         abstract = True
@@ -92,7 +92,7 @@ class Job(BaseJob):
     fields_allow_sq = ['comment']
 
     name = models.CharField(max_length=150, null=False, blank=False)
-    playbook_file = models.CharField(max_length=100)
+    playbook_file = models.CharField(max_length=150)
     # NOTE: one or multiple comma-separated inventories
     inventory_file = models.CharField(max_length=300, **DEFAULT_NONE)
     schedule_max_len = 50
