@@ -11,7 +11,7 @@ ARG AW_VERSION
 FROM public.ecr.aws/docker/library/golang:1.17-alpine as ssm-builder
 # https://hub.docker.com/_/golang/tags?page=1&name=1.15
 
-ARG SSM_VERSION=1.2.553.0
+ARG SSM_VERSION=1.2.694.0
 # ssm version: https://github.com/aws/session-manager-plugin/releases
 
 RUN apk add --no-cache make git gcc libc-dev curl bash zip && \

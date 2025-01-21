@@ -1,4 +1,4 @@
-FROM python:3.10-alpine
+FROM python:3.11-alpine
 
 # BUILD: docker build -f Dockerfile_unstable_unprivileged -t ansible0guy/webui-unprivileged:unstable --no-cache .
 # RUN: docker run -it --name ansible-webui-unstable --publish 127.0.0.1:8000:8000 ansible0guy/webui-unprivileged:unstable
