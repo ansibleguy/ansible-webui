@@ -65,27 +65,27 @@ fi
 
 echo ''
 echo "### BUILDING IMAGE ${image} ###"
-docker build -f Dockerfile_production -t "$image" --build-arg "AW_VERSION=${VERSION}" --no-cache .
+docker build -f Dockerfile_production -t "$image" --network host --build-arg "AW_VERSION=${VERSION}" --no-cache .
 
 if [[ "$REPLY" =~ ^[Yy]$ ]]
 then
-  docker build -f Dockerfile_production -t "$image_latest" --build-arg "AW_VERSION=${VERSION}" .
+  docker build -f Dockerfile_production -t "$image_latest" --network host --build-arg "AW_VERSION=${VERSION}" .
 fi
 
 echo ''
 echo "### BUILDING IMAGE ${image_unpriv} ###"
-docker build -f Dockerfile_production_unprivileged -t "$image_unpriv" --build-arg "AW_VERSION=${VERSION}" --no-cache .
+docker build -f Dockerfile_production_unprivileged -t "$image_unpriv" --network host --build-arg "AW_VERSION=${VERSION}" --no-cache .
 
 if [[ "$REPLY" =~ ^[Yy]$ ]]
 then
-  docker build -f Dockerfile_production_unprivileged -t "$image_unpriv_latest" --build-arg "AW_VERSION=${VERSION}" .
+  docker build -f Dockerfile_production_unprivileged -t "$image_unpriv_latest" --network host --build-arg "AW_VERSION=${VERSION}" .
 fi
 
 echo ''
 echo "### BUILDING IMAGE ${image_aws} ###"
-docker build -f Dockerfile_production_aws -t "$image_aws" --build-arg "AW_VERSION=${VERSION}" --no-cache --progress=plain .
+docker build -f Dockerfile_production_aws -t "$image_aws" --network host --build-arg "AW_VERSION=${VERSION}" --no-cache --progress=plain .
 
 if [[ "$REPLY" =~ ^[Yy]$ ]]
 then
-  docker build -f Dockerfile_production_aws -t "$image_aws_latest" --build-arg "AW_VERSION=${VERSION}" .
+  docker build -f Dockerfile_production_aws -t "$image_aws_latest" --network host --build-arg "AW_VERSION=${VERSION}" .
 fi
