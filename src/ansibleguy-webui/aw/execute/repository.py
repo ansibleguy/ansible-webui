@@ -122,7 +122,7 @@ class ExecuteRepository:
 
     def _git_env(self) -> dict:
         env = {
-            'GIT_SSH_COMMAND': f'ssh -o ConnectTimeout=10',
+            'GIT_SSH_COMMAND': 'ssh -o ConnectTimeout=10',
             'GIT_HTTP_CONNECT_TIMEOUT': '10',
         }
         if self.repository.git_origin.find(' -p') != -1:
