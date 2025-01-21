@@ -6,7 +6,7 @@
 4 - Config
 ==========
 
-**Tip**: You can use the key-combination :code:`SHIFT + S` to quick-safe your changes.
+**Tip**: You can use the key-combination :code:`ALT + S` to quick-safe your changes.
 
 WebUI
 *****

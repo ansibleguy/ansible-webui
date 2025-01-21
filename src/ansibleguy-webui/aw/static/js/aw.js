@@ -238,8 +238,8 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-pressed_shift = false;
-function shift_s_handler() {
+pressed_alt = false;
+function alt_s_handler() {
     for (let f of document.getElementsByTagName('form')) {
         if (f.action.includes('/api')) {
             // NOTE: form.submit is not working as we want to catch it later on
@@ -549,16 +549,16 @@ $( document ).ready(function() {
         apiFsExists(jQuery(this));
     });
     $(document).on("keyup", function(e){
-        if (e.keyCode == 16) {
-            pressed_shift = false;
+        if (e.keyCode == 18) {
+            pressed_alt = false;
         }
     });
     $(document).on("keydown", function(e){
-        if (e.keyCode == 16) {
-            pressed_shift = true;
+        if (e.keyCode == 18) {
+            pressed_alt = true;
         }
-        if (pressed_shift === true && e.keyCode == 83) {
-            shift_s_handler();
+        if (pressed_alt === true && e.keyCode == 83) {
+            alt_s_handler();
         }
     });
 });
