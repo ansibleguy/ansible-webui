@@ -1,4 +1,4 @@
-ARG AW_VERSION
+ARG AW_VERSION=0.0
 
 # BUILD: docker build -f Dockerfile_production_aws -t "ansible0guy/webui-aws:<VERSION>" --build-arg "AW_VERSION=<VERSION>" --no-cache --progress=plain .
 
@@ -8,7 +8,7 @@ ARG AW_VERSION
 #   https://github.com/aws/session-manager-plugin/blob/mainline/Dockerfile
 #   https://github.com/aws/session-manager-plugin/blob/mainline/makefile
 
-FROM public.ecr.aws/docker/library/golang:1.17-alpine as ssm-builder
+FROM public.ecr.aws/docker/library/golang:1.17-alpine AS ssm-builder
 # https://hub.docker.com/_/golang/tags?page=1&name=1.15
 
 ARG SSM_VERSION=1.2.694.0
