@@ -18,6 +18,7 @@ from aw.utils.permission import has_job_permission, has_credentials_permission, 
 from aw.execute.queue import queue_add
 from aw.execute.util import update_status, is_execution_status
 from aw.utils.util import is_set, ansible_log_html, ansible_log_text
+from aw.model.base import JOB_EXEC_STATI_ACTIVE, JOB_EXEC_STATUS_FAILED
 from aw.base import USERS
 
 
@@ -362,6 +363,9 @@ class APIJobExecutionItem(APIView):
                     return Response(data={'msg': f"Not privileged to stop the job '{job.name}'"}, status=403)
 
                 if not is_execution_status(execution, 'Running'):
+                    JobExecution.objects.filter(
+                        status__in=JOB_EXEC_STATI_ACTIVE, job=job,
+                    ).update(status=JOB_EXEC_STATUS_FAILED)
                     return Response(data={'msg': f"Job execution '{job.name}' is not running"}, status=400)
 
                 update_status(execution, 'Stopping')
