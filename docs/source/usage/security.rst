@@ -57,6 +57,8 @@ Security considerations this project does take into account:
 
 * Usage of `Content-Security-Policy <https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP>`_ to protect against XSS and injections
 
+----
+
 Setup
 *****
 
@@ -77,3 +79,25 @@ Setup
         :code:`/static/ => ${PATH_VENV}/lib/python${PY_VERSION}/site-packages/ansible-webui/aw/static/`
 
 * Make sure the Account passwords and API keys are kept/used safe
+
+----
+
+Target Systems
+**************
+
+If you target Linux-Systems you can limit the IP-addresses from which the automation-user (*configured for Ansible-WebUI*) using your SSH config:
+
+.. code-block::
+
+    # file: /etc/ssh/sshd_config
+
+    ...
+
+    Match User <USER>
+        AllowUsers <USER>@<IP>/32
+
+    # example:
+    Match User ansible
+        AllowUsers ansible@192.168.0.10/32
+
+    ...
